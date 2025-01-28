@@ -19,6 +19,9 @@ class PlayListCancion
     #[ORM\ManyToOne(inversedBy: 'playListCancions')]
     private ?Cancion $cancion = null;
 
+    #[ORM\Column]
+    private ?int $reproducida = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class PlayListCancion
     public function setCancion(?Cancion $cancion): static
     {
         $this->cancion = $cancion;
+
+        return $this;
+    }
+
+    public function getReproducida(): ?int
+    {
+        return $this->reproducida;
+    }
+
+    public function setReproducida(int $reproducida): static
+    {
+        $this->reproducida = $reproducida;
 
         return $this;
     }

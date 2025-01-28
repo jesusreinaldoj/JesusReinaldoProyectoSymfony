@@ -31,13 +31,13 @@ class PlayListRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?PlayList
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+       public function buscarporNombre($nombre): ?PlayList
+       {
+           return $this->createQueryBuilder('p')
+               ->andWhere('p.nombre = :val')
+               ->setParameter('val', $nombre)
+               ->getQuery()
+               ->getOneOrNullResult()
+           ;
+       }
 }

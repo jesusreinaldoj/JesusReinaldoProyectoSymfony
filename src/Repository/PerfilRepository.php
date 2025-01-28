@@ -31,13 +31,13 @@ class PerfilRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Perfil
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function buscarporID($id): ?Perfil
+       {
+           return $this->createQueryBuilder('e')
+               ->andWhere('e.id = :val')
+               ->setParameter('val', $id)
+               ->getQuery()
+               ->getOneOrNullResult()
+           ;
+       }
 }
