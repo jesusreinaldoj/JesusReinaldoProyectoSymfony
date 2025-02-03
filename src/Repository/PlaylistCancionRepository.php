@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\PerfilEstilo;
+use App\Entity\PlaylistCancion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PerfilEstilo>
+ * @extends ServiceEntityRepository<PlaylistCancion>
  */
-class PerfilEstiloRepository extends ServiceEntityRepository
+class PlaylistCancionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PerfilEstilo::class);
+        parent::__construct($registry, PlaylistCancion::class);
     }
 
     //    /**
-    //     * @return PerfilEstilo[] Returns an array of PerfilEstilo objects
+    //     * @return PlaylistCancion[] Returns an array of PlaylistCancion objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class PerfilEstiloRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?PerfilEstilo
+    //    public function findOneBySomeField($value): ?PlaylistCancion
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

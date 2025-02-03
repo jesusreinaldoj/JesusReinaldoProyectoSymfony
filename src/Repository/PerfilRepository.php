@@ -31,10 +31,10 @@ class PerfilRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function buscarporID($id): ?Perfil
+       public function buscarporID($id): ?Perfil
        {
-           return $this->createQueryBuilder('e')
-               ->andWhere('e.id = :val')
+           return $this->createQueryBuilder('p')
+               ->andWhere('p.id = :val')
                ->setParameter('val', $id)
                ->getQuery()
                ->getOneOrNullResult()

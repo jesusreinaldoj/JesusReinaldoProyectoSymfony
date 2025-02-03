@@ -31,11 +31,11 @@ class EstiloRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-       public function buscarporID($id): ?Estilo
+       public function buscarporNombre($nombre): ?Estilo
        {
            return $this->createQueryBuilder('e')
-               ->andWhere('e.id = :val')
-               ->setParameter('val', $id)
+               ->andWhere('e.nombre = :val')
+               ->setParameter('val', $nombre)
                ->getQuery()
                ->getOneOrNullResult()
            ;

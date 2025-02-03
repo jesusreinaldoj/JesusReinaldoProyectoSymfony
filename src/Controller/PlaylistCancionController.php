@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Cancion;
-use App\Entity\PlayList;
-use App\Entity\PlayListCancion;
+use App\Entity\Playlist;
+use App\Entity\PlaylistCancion;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,25 +22,28 @@ final class PlaylistCancionController extends AbstractController
     }
 
     #[Route('/playlist/cancion/new', name: 'app_playlist_cancion_new')]
-    public function crearPlaylistCancion(EntityManagerInterface $entityManagerInterface): JsonResponse
+    public function unirCancionConPlaylist(EntityManagerInterface $entityManagerInterface): JsonResponse
     {
-    $playlist=$entityManagerInterface->getRepository(PlayList::class);
-    $cancion=$entityManagerInterface->getRepository(Cancion::class);
+        $playlistCancion=new PlaylistCancion();
 
-    $playlist_encontrada=$playlist->buscarporNombre("PlayList1");
-    $cancion_encontrada=$cancion->buscarporNombre("Cancion1");
+        $playlist=$entityManagerInterface->getRepository(Playlist::class);
+        $playlist_encontrada=$playlist->buscarporNombre("playlist1");
 
-    $playlistCancion=new PlayListCancion();
-    $playlistCancion->setPlaylist($playlist_encontrada);
-    $playlistCancion->setCancion($cancion_encontrada);
-    $playlistCancion->setReproducida(0);
+        $playlistCancion->setPlaylist($playlist_encontrada);
 
-    $entityManagerInterface->persist($playlistCancion);
-    $entityManagerInterface->flush();
+        $cancion=$entityManagerInterface->getRepository(Cancion::class);
+        $cancion_encontrada=$cancion->buscarporNombre("Cancion1");
+
+        $playlistCancion->setCancion($cancion_encontrada);
+        $playlistCancion->setReproducciones(0);
+
+        $entityManagerInterface->persist($playlistCancion);
+        $entityManagerInterface->flush();
+
 
 
         return $this->json([
-            'message' => 'PlayListCancion creado!',
+            'message' => 'Cancion añadida a la playlist!',
             'path' => 'src/Controller/PlaylistCancionController.php',
         ]);
     }

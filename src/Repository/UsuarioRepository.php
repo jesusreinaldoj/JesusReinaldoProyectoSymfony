@@ -31,11 +31,11 @@ class UsuarioRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-       public function buscarporNombre($email): ?Usuario
+       public function buscarporNombre($nombre): ?Usuario
        {
            return $this->createQueryBuilder('u')
-               ->andWhere('u.email = :val')
-               ->setParameter('val', $email)
+               ->andWhere('u.nombre = :val')
+               ->setParameter('val', $nombre)
                ->getQuery()
                ->getOneOrNullResult()
            ;

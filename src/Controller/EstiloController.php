@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Estilo;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Estilo;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class EstiloController extends AbstractController
 {
@@ -19,21 +19,16 @@ final class EstiloController extends AbstractController
         ]);
     }
 
-
-    #[Route('/estilo/new/{nombre}', name: 'app_estilo_new')]
-    public function crearEstilo(EntityManagerInterface $entityManagerInterface,$nombre): JsonResponse
+    #[Route('/estilo/new', name: 'app_estilo_new')]
+    public function crearEstilo(EntityManagerInterface $entityManagerInterface): JsonResponse
     {
+
         $estilo=new Estilo();
-        $estilo->setNombre($nombre);
-        $estilo->setDescripcion("Estilo " . $nombre);
+        $estilo->setNombre("Rock");
+        $estilo->setDescripcion("descripcion1");
 
         $entityManagerInterface->persist($estilo);
         $entityManagerInterface->flush();
-
-
-
-
-
 
         return $this->json([
             'message' => 'Estilo creado!',

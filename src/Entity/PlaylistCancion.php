@@ -2,37 +2,37 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayListCancionRepository;
+use App\Repository\PlaylistCancionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PlayListCancionRepository::class)]
-class PlayListCancion
+#[ORM\Entity(repositoryClass: PlaylistCancionRepository::class)]
+class PlaylistCancion
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'canciones')]
-    private ?PlayList $playlist = null;
+    #[ORM\ManyToOne(inversedBy: 'playlistCancions')]
+    private ?Playlist $playlist = null;
 
-    #[ORM\ManyToOne(inversedBy: 'playListCancions')]
+    #[ORM\ManyToOne(inversedBy: 'playlistCancions')]
     private ?Cancion $cancion = null;
 
     #[ORM\Column]
-    private ?int $reproducida = null;
+    private ?int $reproducciones = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPlaylist(): ?PlayList
+    public function getPlaylist(): ?Playlist
     {
         return $this->playlist;
     }
 
-    public function setPlaylist(?PlayList $playlist): static
+    public function setPlaylist(?Playlist $playlist): static
     {
         $this->playlist = $playlist;
 
@@ -51,14 +51,14 @@ class PlayListCancion
         return $this;
     }
 
-    public function getReproducida(): ?int
+    public function getReproducciones(): ?int
     {
-        return $this->reproducida;
+        return $this->reproducciones;
     }
 
-    public function setReproducida(int $reproducida): static
+    public function setReproducciones(int $reproducciones): static
     {
-        $this->reproducida = $reproducida;
+        $this->reproducciones = $reproducciones;
 
         return $this;
     }

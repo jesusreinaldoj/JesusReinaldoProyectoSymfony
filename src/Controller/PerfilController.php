@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Perfil;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Perfil;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class PerfilController extends AbstractController
 {
@@ -24,12 +24,10 @@ final class PerfilController extends AbstractController
     {
         $perfil=new Perfil();
         $perfil->setFoto("foto1");
-        $perfil->setEdad(18);
-        $perfil->setDescripcion("Descripcion perfil");
-
+        $perfil->setDescripcion("descripcion 1");
+    
         $entityManagerInterface->persist($perfil);
         $entityManagerInterface->flush();
-
 
 
 
