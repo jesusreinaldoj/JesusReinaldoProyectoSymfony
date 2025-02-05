@@ -62,4 +62,16 @@ class PlaylistCancion
 
         return $this;
     }
+
+    public function cogerID()
+    {
+        return $this->getId(); 
+    }
+    public function __toString()
+    {
+        return $this->getCancion()->getTitulo(); 
+
+    }
+    
+    
 }
