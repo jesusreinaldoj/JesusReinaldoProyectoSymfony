@@ -1,0 +1,51 @@
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiSpotify</title>
+</head>
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+
+
+    img{
+        width:120px;
+        height:120px;
+
+    }
+</style>
+
+<h1>Tus canciones</h1>
+
+
+{% for cancion in canciones %}
+<p>Cancion </p>
+<p>{{cancion.titulo}}</p>
+<p>{{cancion.autor}}</p>
+<img src="https://mlcenergia.com/wp-content/uploads/2022/06/car-refueling-on-a-petrol-station-PUQ5P52-1536x1024-1.jpg" id="gasolina"></img>
+<br><br>
+{%endfor %}
+<audio id="audioplayer"></audioplayer>
+
+
+<script>
+
+let imagen_Gasolina=document.getElementById("gasolina");
+
+
+
+imagen_Gasolina.onclick='/cancion/Gasolina.mp3/play';
+
+
+
+
+
+</script>
+
+
+</div>
+{% endblock %}
