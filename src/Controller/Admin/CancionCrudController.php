@@ -28,6 +28,8 @@ class CancionCrudController extends AbstractCrudController
             TextField::new('album'),
             TextField::new('autor'),
             NumberField::new('likes'),
+            TextField::new('portada'),
+            TextField::new('archivo_cancion'),
             AssociationField::new('genero','Genero')
             ->setFormTypeOption('by_reference',false)
 

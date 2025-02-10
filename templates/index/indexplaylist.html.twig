@@ -1,0 +1,151 @@
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiSpotify</title>
+</head>
+
+{% block body %}
+<style>
+    img{
+        width:120px;
+        height:120px;
+
+    }
+
+    body{
+        background-color:green;
+
+
+    }
+
+    footer{
+        background-color:black;
+        color:white;
+        margin:10%;
+        display: flex;
+        flex-direction: column;
+        width:100vh;
+        position:relative;
+        right:20%;
+
+
+    }
+
+    div.contenido{
+        position:relative;
+        left:110%;
+        margin-top: -80%;
+        padding-top: 20%;
+ }
+
+     .navbar {
+            background-color: #333;
+            width: 250px;
+            min-height: 100vh;
+            padding: 2rem 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item a:hover {
+            background-color: #555;
+        }
+
+        /* Área principal de contenido */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .navbarInicio{
+            background-color:#093900;
+
+             position:relative;
+
+         margin-top: -10%;
+        padding-top: 10%;
+
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .navbar {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .nav-list {
+                align-items: center;
+            }
+
+            .nav-item {
+                width: 90%;
+                text-align: center;
+            }
+        }
+
+
+    
+
+
+ 
+        
+</style>
+
+<div class="navbarInicio">
+<h1>MiSpotify</h1>
+</div>
+
+
+
+<nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/playlist/todas">Playlists</a></li>
+            <li class="nav-item"><a href="/paginaprincipal">Canciones</a></li>
+        </ul>
+
+<div class="Contenido">
+<h1>Tus playlists</h1>
+
+
+
+{% for playlist in playlists %}
+<p>Playlist</p>
+<p>{{playlist.nombre}}</p>
+<br><br>
+
+{%endfor %}
+<footer>
+<h1>Jesus Reinaldo</h1>
+<p> &#169 MiSpotify-Todos los derechos reservados</p>
+
+</footer>
+
+
+</div>
+{% endblock %}
