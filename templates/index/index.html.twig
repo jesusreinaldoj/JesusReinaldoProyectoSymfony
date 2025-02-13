@@ -121,22 +121,31 @@
 <nav class="navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="/playlist/todas">Playlists</a></li>
-            <li class="nav-item"><a href="/paginaprincipal">Canciones</a></li>
+            <li class="nav-item"><a href="/cancion/todas">Canciones</a></li>
         </ul>
 
-<div class="Contenido">
-<h1>Tus canciones</h1>
+<div class="contenido">
+
+<h1>Playlists</h1>
+{% for playlist in playlists %}
+<p>Playlist </p>
+<p>{{playlist.nombre}}</p>
+<br><br>
+
+{%endfor %}
 
 
-
+<h1>Canciones</h1>
 {% for cancion in canciones %}
-<p>Cancion </p>
+<p>Playlist </p>
 <p>{{cancion.titulo}}</p>
 <p>{{cancion.autor}}</p>
 <img src="{{cancion.portada}}" id="{{cancion.titulo}}" onclick="playSound('{{cancion.archivoCancion}}')"  ></img>
 <br><br>
 
 {%endfor %}
+
+
 <footer>
 <h1>Jesus Reinaldo</h1>
 <p> &#169 MiSpotify-Todos los derechos reservados</p>

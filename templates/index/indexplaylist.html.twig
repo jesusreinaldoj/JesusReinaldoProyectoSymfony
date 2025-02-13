@@ -137,9 +137,13 @@
 {% for playlist in playlists %}
 <p>Playlist</p>
 <p>{{playlist.nombre}}</p>
+<button onclick="window.location.href='{{ path('playlist_canciones', {'id': playlist.id}) }}'">Pulsar </button>
 <br><br>
 
-{%endfor %}
+{% endfor %}
+
+
+
 <footer>
 <h1>Jesus Reinaldo</h1>
 <p> &#169 MiSpotify-Todos los derechos reservados</p>

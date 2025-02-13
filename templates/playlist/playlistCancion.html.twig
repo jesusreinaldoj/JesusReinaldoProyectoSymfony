@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block contenido %}
+
+<h1>Canciones</h1>
+    {% for playlistCancion in canciones %}
+        <p>Cancion</p>
+        <p>{{playlistCancion.cancion.titulo}}</p>
+        <p>{{playlistCancion.cancion.autor}}</p>
+        <img src="{{playlistCancion.cancion.portada}}" id="{{playlistCancion.cancion.titulo}}" onclick="playSound('{{playlistCancion.cancion.archivoCancion}}')" />
+        <br><br>
+    {% endfor %}
+{% endblock %}

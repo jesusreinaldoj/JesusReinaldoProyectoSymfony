@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Response;
+use App\Repository\PlaylistCancionRepository;
 
 final class PlaylistController extends AbstractController
 {
@@ -44,4 +46,26 @@ final class PlaylistController extends AbstractController
             'path' => 'src/Controller/PlaylistController.php',
         ]);
     }
+
+
+    #[Route('/playlist/{id}/canciones', name: 'playlist_canciones')]
+    public function canciones(int $id, PlaylistCancionRepository $playlistCancionRepository): Response
+    {
+        $playlistData = $playlistCancionRepository->buscarPorID($id);
+
+        if (empty($playlistData)) {
+            throw $this->createNotFoundException('Playlist no encontrada');
+        }
+
+        // Obtener el nombre de la playlist (ya que todas las canciones tienen la misma playlist)
+        $playlistNombre = $playlistData[0]->getPlaylist()->getNombre();
+
+        return $this->render('playlist/playlistCancion.html.twig', [
+            'playlistNombre' => $playlistNombre,
+            'canciones' => $playlistData
+        ]);
+    }
+
+
+
 }

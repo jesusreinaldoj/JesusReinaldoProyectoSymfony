@@ -157,10 +157,7 @@ class Cancion
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->titulo;
-    }
+   
 
     public function getArchivoCancion(): ?string
     {
@@ -184,6 +181,11 @@ class Cancion
         $this->portada = $portada;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->titulo;
     }
 
   
