@@ -40,6 +40,15 @@ class Cancion
     #[ORM\OneToMany(targetEntity: PlaylistCancion::class, mappedBy: 'cancion')]
     private Collection $playlistCancions;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $archivo = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ArchivoCancion = null;
+
+    #[ORM\Column(length: 255,nullable:true)]
+    private ?string $portada = null;
+
     public function __construct()
     {
         $this->playlistCancions = new ArrayCollection();
@@ -121,10 +130,6 @@ class Cancion
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, PlaylistCancion>
-     */
     public function getPlaylistCancions(): Collection
     {
         return $this->playlistCancions;
@@ -152,8 +157,36 @@ class Cancion
         return $this;
     }
 
+   
+
+    public function getArchivoCancion(): ?string
+    {
+        return $this->ArchivoCancion;
+    }
+
+    public function setArchivoCancion(?string $ArchivoCancion)
+    {
+        $this->ArchivoCancion = $ArchivoCancion;
+
+        return $this;
+    }
+
+    public function getPortada(): ?string
+    {
+        return $this->portada;
+    }
+
+    public function setPortada(string $portada)
+    {
+        $this->portada = $portada;
+
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->titulo;
     }
+
+  
 }

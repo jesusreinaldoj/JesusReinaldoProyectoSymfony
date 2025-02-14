@@ -79,6 +79,7 @@ class Estilo
     public function addPerfile(Perfil $perfile): static
     {
         if (!$this->perfiles->contains($perfile)) {
+
             $this->perfiles->add($perfile);
             $perfile->addEstiloMusicaPreferido($this);
         }

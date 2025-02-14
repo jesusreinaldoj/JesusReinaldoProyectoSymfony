@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Cancion;
 use App\Entity\PlaylistCancion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,13 +32,15 @@ class PlaylistCancionRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?PlaylistCancion
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+       public function buscarPorID($id): array
+       {
+           return $this->createQueryBuilder('pc')
+               ->join('pc.cancion','c')
+               ->addSelect('c')               
+               ->where('pc.playlist = :val')
+               ->setParameter('val', $id)
+               ->getQuery()
+               ->getResult()
+           ;
+       }
 }

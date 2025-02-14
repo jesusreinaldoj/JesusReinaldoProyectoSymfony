@@ -1,16 +1,141 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MiSpotify{% endblock %}</title>
+    
+    <style>
+        img {
+            width: 120px;
+            height: 120px;
+        }
+
+        body {
+            background-color: green;
+        }
+
+        footer {
+            background-color: black;
+            color: white;
+            margin: 10%;
+            display: flex;
+            flex-direction: column;
+            width: 100vh;
+            position: relative;
+            right: 10%;
+        }
+
+        .navbar {
+            background-color: #333;
+            width: 250px;
+            min-height: 100vh;
+            padding: 2rem 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item a:hover {
+            background-color: #555;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+      
+
+        .navbarInicio {
+            background-color: #093900;
+            position: relative;
+            margin-top: -10%;
+            padding-top: 10%;
+        }
+
+        div.contenido {
+            position: relative;
+            left: 20%;
+            margin-top: -75%;
+            padding-top: 20%;
+        }
+
+         @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .navbar {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .nav-list {
+                align-items: center;
+            }
+
+            .nav-item {
+                width: 90%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbarInicio">
+        <h1>MiSpotify</h1>
+    </div>
+
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/playlist/todas">Playlists</a></li>
+            <li class="nav-item"><a href="/cancion/todas">Canciones</a></li>
+        </ul>
+    </nav>
+                    
+<div class="contenido">
+
+        {% block contenido %}
+
         {% endblock %}
 
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+</div>
+    <footer>
+        <h1>Jesus Reinaldo</h1>
+        <p>&copy; MiSpotify-Todos los derechos reservados</p>
+    </footer>
+
+    <audio src="" controls autoplay id="audio">
+        <source type="audio/mpeg" src="audio.mp3">
+    </audio>
+
+    {% block javascripts %}
+    <script>
+        function playSound(cancion) {
+            const audio = document.getElementById("audio");
+            audio.src = `/cancion/${cancion}.mp3/play`;
+        }
+    </script>
+    {% endblock %}
+</body>
 </html>
