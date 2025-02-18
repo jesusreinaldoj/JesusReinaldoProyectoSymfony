@@ -32,7 +32,7 @@ class PlaylistCancion
         return $this->playlist;
     }
 
-    public function setPlaylist(?Playlist $playlist): static
+    public function setPlaylist(?Playlist $playlist)
     {
         $this->playlist = $playlist;
 
@@ -44,7 +44,7 @@ class PlaylistCancion
         return $this->cancion;
     }
 
-    public function setCancion(?Cancion $cancion): static
+    public function setCancion(?Cancion $cancion)
     {
         $this->cancion = $cancion;
 
@@ -56,7 +56,7 @@ class PlaylistCancion
         return $this->reproducciones;
     }
 
-    public function setReproducciones(int $reproducciones): static
+    public function setReproducciones(int $reproducciones)
     {
         $this->reproducciones = $reproducciones;
 
@@ -70,6 +70,12 @@ class PlaylistCancion
     public function __toString()
     {
         return $this->getCancion()->getTitulo(); 
+
+    }
+
+    public function nombre()
+    {
+        return $this->getPlaylist()->getNombre(); 
 
     }
     

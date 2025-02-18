@@ -57,7 +57,6 @@ final class PlaylistController extends AbstractController
             throw $this->createNotFoundException('Playlist no encontrada');
         }
 
-        // Obtener el nombre de la playlist (ya que todas las canciones tienen la misma playlist)
         $playlistNombre = $playlistData[0]->getPlaylist()->getNombre();
 
         return $this->render('playlist/playlistCancion.html.twig', [

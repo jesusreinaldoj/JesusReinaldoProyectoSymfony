@@ -4,7 +4,7 @@
 
 <h1>Canciones</h1>
     {% for cancion in canciones %}
-        <p>Playlist</p>
+        <p>Cancion</p>
         <p>{{cancion.titulo}}</p>
         <p>{{cancion.autor}}</p>
         <img src="{{cancion.portada}}" id="{{cancion.titulo}}" onclick="playSound('{{cancion.archivoCancion}}')" />

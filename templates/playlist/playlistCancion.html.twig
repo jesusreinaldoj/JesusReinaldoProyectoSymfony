@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block contenido %}
+{% for nombre in canciones %}
+<h1>Canciones en {{nombre.nombre}}</h1>
+    {% endfor %}
 
-<h1>Canciones</h1>
     {% for playlistCancion in canciones %}
         <p>Cancion</p>
         <p>{{playlistCancion.cancion.titulo}}</p>
