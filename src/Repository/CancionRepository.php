@@ -40,4 +40,24 @@ class CancionRepository extends ServiceEntityRepository
                ->getOneOrNullResult()
            ;
        }
+
+       public function obtenerCancionesMasReproducidas(){
+        $result = $this->createQueryBuilder('c')
+            ->select('c.titulo as titulo, c.reproducciones as totalReproducciones')
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        // Transformar el resultado al formato JSON deseado
+        $formattedResults = array_map(function($item) {
+            return [
+                'titulo' => $item['titulo'],
+                'totalReproducciones' => $item['totalReproducciones']
+            ];
+        }, $result);
+
+        return $formattedResults;
+       }
+
+
 }

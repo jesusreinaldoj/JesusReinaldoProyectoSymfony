@@ -49,6 +49,9 @@ class Cancion
     #[ORM\Column(length: 255,nullable:true)]
     private ?string $portada = null;
 
+    #[ORM\Column]
+    private ?int $reproducciones = null;
+
     public function __construct()
     {
         $this->playlistCancions = new ArrayCollection();
@@ -186,6 +189,18 @@ class Cancion
     public function __toString()
     {
         return $this->titulo;
+    }
+
+    public function getReproducciones(): ?int
+    {
+        return $this->reproducciones;
+    }
+
+    public function setReproducciones(int $reproducciones): static
+    {
+        $this->reproducciones = $reproducciones;
+
+        return $this;
     }
 
   

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Func;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,5 +40,17 @@ class UsuarioRepository extends ServiceEntityRepository
                ->getQuery()
                ->getOneOrNullResult()
            ;
+       }
+
+       public function usuariosRegistrados(){
+        $query = $this->createQueryBuilder('u')
+            ->select('COUNT(u.id) as conteo')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return [
+            'usuarios' => 'Registrados',
+            'conteo' => $query
+        ];
        }
 }

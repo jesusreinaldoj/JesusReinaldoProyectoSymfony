@@ -40,4 +40,22 @@ class PlaylistRepository extends ServiceEntityRepository
                ->getOneOrNullResult()
            ;
        }
+
+       public function obtenerLikesporPlaylist(){
+        $result = $this->createQueryBuilder('p')
+            ->select('p.nombre as nombre, p.likes as likes')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        // Transformar el resultado al formato JSON deseado
+        $formattedResults = array_map(function($item) {
+            return [
+                'playlist' => $item['nombre'],
+                'totalReproducciones' => $item['likes']
+            ];
+        }, $result);
+
+        return $formattedResults;
+       }
 }

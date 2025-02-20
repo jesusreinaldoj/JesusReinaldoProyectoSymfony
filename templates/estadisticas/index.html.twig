@@ -1,17 +1,31 @@
-
 {% block title %}Estadísticas{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h2>Estadísticas de Reproducciones por Playlist</h2>
-        <canvas id="reproduccionesChart"></canvas>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Estadísticas de Reproducciones por Playlist</h2>
+                <canvas id="reproduccionesChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h2>Estadísticas de Usuarios</h2>
+                <canvas id="usuariosChart"></canvas>
+            </div>
+            <div class="col-md-6 mt-4">
+                <h2>Likes por Playlist</h2>
+                <canvas id="playlistLikesChart"></canvas>
+            </div>
+            <div class="col-md-6 mt-4">
+                <h2>Canciones Más reproducidas</h2>
+                <canvas id="cancionesMasReproducidas"></canvas>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Se ejecuta cuando la página ha terminado de cargarse
         document.addEventListener("DOMContentLoaded", function () {
-            // Hace una solicitud HTTP GET a la URL que devuelve la ruta generada por Symfony
+            // Gráfico de reproducciones
             fetch("{{ path('estadisticas_datos') }}")
                 .then(response => response.json())
                 .then(data => {
@@ -36,6 +50,130 @@
                             scales: {
                                 y: {
                                     beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+
+            // Gráfico de usuarios
+            fetch("{{ path('estadisticas_datos_usuario') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const labels2 = [data.usuarios];
+                    const values2 = [data.conteo];
+                    const ctx2 = document.getElementById('usuariosChart').getContext('2d');
+                    
+                    new Chart(ctx2, {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels2,
+                            datasets: [{
+                                label: 'Usuarios Registrados',
+                                data: values2,
+                                backgroundColor: [
+                                    'rgba(54, 162, 235, 0.5)',
+                                    'rgba(255, 99, 132, 0.5)',
+                                    'rgba(255, 206, 86, 0.5)'
+                                ],
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                });
+
+            // Gráfico de likes por playlist
+            fetch("{{ path('estadisticas_datos_playlist_likes') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const labels3 = data.map(item => item.playlist);
+                    const values3 = data.map(item => item.totalReproducciones);
+                    const ctx3 = document.getElementById('playlistLikesChart').getContext('2d');
+                    
+                    new Chart(ctx3, {
+                        type: 'bar',
+                        data: {
+                            labels: labels3,
+                            datasets: [{
+                                label: 'Playlists con mas likes',
+                                data: values3,
+                                fill: false,
+                                backgroundColor: [
+                                    'rgba(54, 162, 235, 0.5)',
+                                    'rgba(255, 99, 132, 0.5)',
+                                    'rgba(255, 206, 86, 0.5)'
+                                ],
+                                borderColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 159, 64)',
+                                    'rgb(255, 205, 86)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(153, 102, 255)',
+                                    'rgb(201, 203, 207)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+
+            // Gráfico de canciones más reproducidas
+            fetch("{{ path('estadisticas_datos_cancion_reproducciones') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const labels4 = data.map(item => item.titulo);
+                    const values4 = data.map(item => item.totalReproducciones);
+                    const ctx4 = document.getElementById('cancionesMasReproducidas').getContext('2d');
+                    
+                    new Chart(ctx4, {
+                        type: 'line',
+                        data: {
+                            labels: labels4,
+                            datasets: [{
+                                label: 'Canciones más reproducidas',
+                                data: values4,
+                                fill: true,
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgb(255, 99, 132)',
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Número de reproducciones'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Canciones'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.parsed.y} reproducciones`;
+                                        }
+                                    }
                                 }
                             }
                         }
