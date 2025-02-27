@@ -14,7 +14,7 @@
     }
 
     body{
-        background-color:green;
+        background-color:grey;
 
 
     }
@@ -79,12 +79,12 @@
         }
 
         .navbarInicio{
-            background-color:#093900;
-
-             position:relative;
-
-         margin-top: -10%;
-        padding-top: 10%;
+             background-color: #093900;
+  padding: 20px;
+  text-align: center; /* Centra el contenido de texto */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos flex horizontalmente */
 
         }
 
@@ -109,6 +109,39 @@
             }
         }
 
+         .buscador-container {
+  margin: 15px auto;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente el input y botón */
+  width: 100%;
+  max-width: 600px; /* Limita el ancho máximo */
+}
+
+#inputBuscador {
+  padding: 8px;
+  border-radius: 4px 0 0 4px;
+  border: none;
+  flex-grow: 1; /* Hace que el input ocupe el espacio disponible */
+  max-width: 70%; /* Limita el ancho en pantallas grandes */
+}
+
+#botonBuscar {
+  padding: 8px 15px;
+  background-color: #1DB954; /* Color verde de Spotify */
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* Estilos responsivos adicionales */
+@media (max-width: 768px) {
+  .buscador-container {
+    flex-direction: row; /* Mantiene el input y botón en línea */
+    width: 90%; /* Ajusta el ancho en dispositivos pequeños */
+  }
+}
+
 
     
 
@@ -118,8 +151,12 @@
 </style>
 
 <div class="navbarInicio">
-<h1>MiSpotify</h1>
-</div>
+  <h1>MiSpotify</h1>
+  <div class="buscador-container">
+    <input type="text" id="inputBuscador" placeholder="Buscar canciones o playlists...">
+    <button id="botonBuscar">Buscar</button>
+  </div>
+
 
 
 

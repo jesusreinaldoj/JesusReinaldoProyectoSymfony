@@ -14,7 +14,7 @@
     }
 
     body{
-        background-color:green;
+        background-color:grey;
 
 
     }
@@ -100,28 +100,76 @@
             }
         }
 
+        .user-profile img {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                }
+
         .navbarInicio{
-            background-color:#093900;
-
-             position:relative;
-
-         margin-top: -10%;
-        padding-top: 10%;
+           background-color: #093900;
+  padding: 20px;
+  text-align: center; /* Centra el contenido de texto */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos flex horizontalmente */
 
         }
+
+        .buscador-container {
+  margin: 15px auto;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente el input y botón */
+  width: 100%;
+  max-width: 600px; /* Limita el ancho máximo */
+}
+
+#inputBuscador {
+  padding: 8px;
+  border-radius: 4px 0 0 4px;
+  border: none;
+  flex-grow: 1; /* Hace que el input ocupe el espacio disponible */
+  max-width: 70%; /* Limita el ancho en pantallas grandes */
+}
+
+#botonBuscar {
+  padding: 8px 15px;
+  background-color: #1DB954; /* Color verde de Spotify */
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* Estilos responsivos adicionales */
+@media (max-width: 768px) {
+  .buscador-container {
+    flex-direction: row; /* Mantiene el input y botón en línea */
+    width: 90%; /* Ajusta el ancho en dispositivos pequeños */
+  }
+}
 
  
         
 </style>
 
 <div class="navbarInicio">
-<h1>MiSpotify</h1>
+  <h1>MiSpotify</h1>
+  <div class="buscador-container">
+    <input type="text" id="inputBuscador" placeholder="Buscar canciones o playlists...">
+    <button id="botonBuscar">Buscar</button>
+  </div>
+
+  <div class="user-profile">
+<img src="https://www.padelboadilla.com/areaprivada/img/login.jpg" alt="Perfil" onclick="window.location.href='{{ path('app_login')}}'" class="perfil_img">
+</div>
 </div>
 
 <nav class="navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="/playlist/todas">Playlists</a></li>
             <li class="nav-item"><a href="/cancion/todas">Canciones</a></li>
+            <li class="nav-item"><a href="/playlist/crearPlaylistUsuario">Crear Playlist</a></li>
         </ul>
 
 <div class="contenido">
@@ -161,24 +209,131 @@
 
 <script>
 
-imagen=document.getElementById("Gasolina");
+// Seleccionar los elementos necesarios
+document.addEventListener('DOMContentLoaded', function() {
+  const inputBuscador = document.getElementById("inputBuscador");
+  const botonBuscar = document.getElementById("botonBuscar");
+  const audio = document.getElementById("audio");
+  
+  // Función para encontrar todos los elementos que contienen cierto texto
+  function findElementsContainingText(selector, text) {
+    const elements = document.querySelectorAll(selector);
+    return Array.from(elements).filter(el => el.textContent.includes(text));
+  }
+  
+  // Función para filtrar canciones y playlists
+  function buscar() {
+    // Obtener el texto de búsqueda y convertirlo a minúsculas
+    const textoBusqueda = inputBuscador.value.toLowerCase().trim();
+    
+    // Si el campo de búsqueda está vacío, mostrar todos los elementos
+    if (textoBusqueda === "") {
+      mostrarTodos();
+      return;
+    }
+    
+    // Obtener todos los elementos de contenido
+    const contenidoElement = document.querySelector('.contenido');
+    const allElements = Array.from(contenidoElement.children);
+    
+    // Encontrar los índices de los títulos principales
+    const tituloPlaylistIndex = allElements.findIndex(el => el.tagName === 'H1' && el.textContent === 'Playlists');
+    const tituloCancionIndex = allElements.findIndex(el => el.tagName === 'H1' && el.textContent === 'Canciones');
+    
+    const tituloPlaylist = allElements[tituloPlaylistIndex];
+    const tituloCancion = allElements[tituloCancionIndex];
+    
+    let playlistsVisibles = false;
+    let cancionesVisibles = false;
+    
+    // Procesar playlists
+    let i = tituloPlaylistIndex + 1;
+    while (i < tituloCancionIndex) {
+      // En este caso, cada playlist tiene 3 elementos: etiqueta "Playlist", nombre y <br>
+      if (i + 2 < tituloCancionIndex) {
+        const etiqueta = allElements[i];
+        const nombre = allElements[i + 1];
+        const br = allElements[i + 2];
+        
+        // Verificar si el nombre contiene el texto de búsqueda
+        const coincide = nombre.textContent.toLowerCase().includes(textoBusqueda);
+        
+        // Mostrar u ocultar
+        etiqueta.style.display = coincide ? "block" : "none";
+        nombre.style.display = coincide ? "block" : "none";
+        br.style.display = coincide ? "block" : "none";
+        
+        if (coincide) {
+          playlistsVisibles = true;
+        }
+        
+        i += 3; // Avanzar al siguiente grupo
+      } else {
+        i++; // Por si hay elementos extra
+      }
+    }
+    
+    // Procesar canciones
+    i = tituloCancionIndex + 1;
+    while (i < allElements.length - 3) { // -3 para evitar el footer y audio
+      // Cada canción tiene 5 elementos: etiqueta "Cancion", título, autor, imagen y <br>
+      if (i + 4 < allElements.length) {
+        const etiqueta = allElements[i];
+        const titulo = allElements[i + 1];
+        const autor = allElements[i + 2];
+        const imagen = allElements[i + 3];
+        const br = allElements[i + 4];
+        
+        // Verificar si el título o autor contiene el texto de búsqueda
+        const coincide = titulo.textContent.toLowerCase().includes(textoBusqueda) || 
+                         autor.textContent.toLowerCase().includes(textoBusqueda);
+        
+        // Mostrar u ocultar
+        etiqueta.style.display = coincide ? "block" : "none";
+        titulo.style.display = coincide ? "block" : "none";
+        autor.style.display = coincide ? "block" : "none";
+        imagen.style.display = coincide ? "block" : "none";
+        br.style.display = coincide ? "block" : "none";
+        
+        if (coincide) {
+          cancionesVisibles = true;
+        }
+        
+        i += 5; // Avanzar al siguiente grupo
+      } else {
+        i++; // Por si hay elementos extra
+      }
+    }
+    
+    // Mostrar u ocultar títulos
+    tituloPlaylist.style.display = playlistsVisibles ? "block" : "none";
+    tituloCancion.style.display = cancionesVisibles ? "block" : "none";
+  }
+  
+  // Función para mostrar todos los elementos
+  function mostrarTodos() {
+    const elementos = document.querySelectorAll(".contenido p, .contenido img, .contenido h1, .contenido br");
+    elementos.forEach(elemento => {
+      elemento.style.display = "block";
+    });
+  }
+  
+  // Agregar evento de clic al botón de búsqueda
+  botonBuscar.addEventListener("click", buscar);
+  
+  // Agregar evento de teclado para permitir búsqueda al presionar Enter
+  inputBuscador.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      buscar();
+    }
+  });
+});
 
-
-audio=document.getElementById("audio");
-
-
-
-
-
-
-imagen.src="https://mlcenergia.com/wp-content/uploads/2022/06/car-refueling-on-a-petrol-station-PUQ5P52-1536x1024-1.jpg";
-
-
-function playSound(cancion){
-audio.src=`/cancion/${cancion}.mp3/play`;
+// Función para reproducir sonido (mantenemos la original)
+function playSound(cancion) {
+  const audio = document.getElementById("audio");
+  audio.src = `/cancion/${cancion}.mp3/play`;
 }
-
-
 
 
 
