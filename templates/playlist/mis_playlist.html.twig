@@ -1,0 +1,11 @@
+<h1>Playlists Públicas</h1>
+{% for playlist in publicPlaylists %}
+    <p>Playlist Pública</p>
+    <p>{{ playlist.nombre }}</p>
+    {% if playlist.usuarioPropietario %}
+        <p>Creada por: {{ playlist.usuarioPropietario.email }}</p>
+    {% endif %}
+    <a href="{{ path('playlist_canciones', {'id': playlist.id}) }}">Ver Playlist</a>
+    <br><br>
+{% endfor %}
+

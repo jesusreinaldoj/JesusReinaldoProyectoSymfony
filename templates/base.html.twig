@@ -6,32 +6,41 @@
     <title>{% block title %}MiSpotify{% endblock %}</title>
     
     <style>
-        img {
-            width: 120px;
-            height: 120px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             background-color: grey;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* Ajuste del footer */
         footer {
             background-color: black;
             color: white;
-            margin: 10%;
-            display: flex;
-            flex-direction: column;
-            width: 100vh;
-            position: relative;
-            right: 10%;
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: auto;
         }
 
+        /* Ajuste de la navbar */
         .navbar {
             background-color: #333;
             width: 250px;
             min-height: 100vh;
             padding: 2rem 0;
             font-family: Arial, sans-serif;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .nav-list {
@@ -59,110 +68,94 @@
             background-color: #555;
         }
 
+        /* Ajustar el contenido principal */
         .main-content {
-            flex: 1;
+            margin-left: 250px; /* Espacio para la navbar */
             padding: 2rem;
+            flex-grow: 1;
         }
 
-      
-
-        .navbarInicio {
-            background-color: #093900;
-            position: relative;
-            margin-top: -10%;
-            padding-top: 10%;
+        /* Ajustes para la barra de búsqueda */
+        .buscador-container {
+            margin: 15px auto;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
         }
 
-        div.contenido {
-            position: relative;
-            left: 20%;
-            margin-top: -75%;
-            padding-top: 20%;
+        #inputBuscador {
+            padding: 8px;
+            border-radius: 4px 0 0 4px;
+            border: none;
+            flex-grow: 1;
+            max-width: 70%;
         }
 
-         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            
+        #botonBuscar {
+            padding: 8px 15px;
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        /* Ajustes responsivos */
+        @media (max-width: 768px) {
             .navbar {
                 width: 100%;
                 min-height: auto;
+                position: relative;
             }
 
-            .nav-list {
-                align-items: center;
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
             }
 
-            .nav-item {
+            .buscador-container {
+                flex-direction: row;
                 width: 90%;
-                text-align: center;
             }
         }
-        .buscador-container {
-  margin: 15px auto;
-  display: flex;
-  justify-content: center; /* Centra horizontalmente el input y botón */
-  width: 100%;
-  max-width: 600px; /* Limita el ancho máximo */
-}
 
-#inputBuscador {
-  padding: 8px;
-  border-radius: 4px 0 0 4px;
-  border: none;
-  flex-grow: 1; /* Hace que el input ocupe el espacio disponible */
-  max-width: 70%; /* Limita el ancho en pantallas grandes */
-}
-
-#botonBuscar {
-  padding: 8px 15px;
-  background-color: #1DB954; /* Color verde de Spotify */
-  color: white;
-  border: none;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
-}
-
-/* Estilos responsivos adicionales */
-@media (max-width: 768px) {
-  .buscador-container {
-    flex-direction: row; /* Mantiene el input y botón en línea */
-    width: 90%; /* Ajusta el ancho en dispositivos pequeños */
-  }
-}
-
+        /* Ajuste del contenido */
+        .contenido {
+            position: relative;
+            padding: 2rem;
+            width: 100%;
+        }
 
     </style>
 </head>
 <body>
-   <div class="navbarInicio">
-  <h1>MiSpotify</h1>
-  <div class="buscador-container">
-    <input type="text" id="inputBuscador" placeholder="Buscar canciones o playlists...">
-    <button id="botonBuscar">Buscar</button>
-  </div>
-</div>
-
-    <nav class="navbar">
+    <div class="navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="/playlist/todas">Playlists</a></li>
             <li class="nav-item"><a href="/cancion/todas">Canciones</a></li>
-            <li class="nav-item"><a href="">Crear Playlist</a></li>
-
+            <li class="nav-item"><a href="/playlist/crearPlaylistUsuario">Crear Playlist</a></li>
         </ul>
-    </nav>
-                    
-<div class="contenido">
+    </div>
 
-        {% block contenido %}
+    <div class="main-content">
+        <div class="navbarInicio">
+            <h1>MiSpotify</h1>
+            <div class="buscador-container">
+                <input type="text" id="inputBuscador" placeholder="Buscar canciones o playlists...">
+                <button id="botonBuscar">Buscar</button>
+            </div>
+        </div>
 
-        {% endblock %}
+        <div class="contenido">
+            {% block contenido %}
+            {% endblock %}
+        </div>
+    </div>
 
-</div>
     <footer>
         <h1>Jesus Reinaldo</h1>
-        <p>&copy; MiSpotify-Todos los derechos reservados</p>
+        <p>&copy; MiSpotify - Todos los derechos reservados</p>
     </footer>
 
     <audio src="" controls autoplay id="audio">
@@ -171,138 +164,105 @@
 
     {% block javascripts %}
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputBuscador = document.getElementById("inputBuscador");
+            const botonBuscar = document.getElementById("botonBuscar");
+            const audio = document.getElementById("audio");
 
-// Seleccionar los elementos necesarios
-document.addEventListener('DOMContentLoaded', function() {
-  const inputBuscador = document.getElementById("inputBuscador");
-  const botonBuscar = document.getElementById("botonBuscar");
-  const audio = document.getElementById("audio");
-  
-  // Función para encontrar todos los elementos que contienen cierto texto
-  function findElementsContainingText(selector, text) {
-    const elements = document.querySelectorAll(selector);
-    return Array.from(elements).filter(el => el.textContent.includes(text));
-  }
-  
-  // Función para filtrar canciones y playlists
-  function buscar() {
-    // Obtener el texto de búsqueda y convertirlo a minúsculas
-    const textoBusqueda = inputBuscador.value.toLowerCase().trim();
-    
-    // Si el campo de búsqueda está vacío, mostrar todos los elementos
-    if (textoBusqueda === "") {
-      mostrarTodos();
-      return;
-    }
-    
-    // Obtener todos los elementos de contenido
-    const contenidoElement = document.querySelector('.contenido');
-    const allElements = Array.from(contenidoElement.children);
-    
-    // Encontrar los índices de los títulos principales
-    const tituloPlaylistIndex = allElements.findIndex(el => el.tagName === 'H1' && el.textContent === 'Playlists');
-    const tituloCancionIndex = allElements.findIndex(el => el.tagName === 'H1' && el.textContent === 'Canciones');
-    
-    const tituloPlaylist = allElements[tituloPlaylistIndex];
-    const tituloCancion = allElements[tituloCancionIndex];
-    
-    let playlistsVisibles = false;
-    let cancionesVisibles = false;
-    
-    // Procesar playlists
-    let i = tituloPlaylistIndex + 1;
-    while (i < tituloCancionIndex) {
-      // En este caso, cada playlist tiene 3 elementos: etiqueta "Playlist", nombre y <br>
-      if (i + 2 < tituloCancionIndex) {
-        const etiqueta = allElements[i];
-        const nombre = allElements[i + 1];
-        const br = allElements[i + 2];
-        
-        // Verificar si el nombre contiene el texto de búsqueda
-        const coincide = nombre.textContent.toLowerCase().includes(textoBusqueda);
-        
-        // Mostrar u ocultar
-        etiqueta.style.display = coincide ? "block" : "none";
-        nombre.style.display = coincide ? "block" : "none";
-        br.style.display = coincide ? "block" : "none";
-        
-        if (coincide) {
-          playlistsVisibles = true;
+            function buscar() {
+                const textoBusqueda = inputBuscador.value.toLowerCase().trim();
+                if (textoBusqueda === "") {
+                    mostrarTodos();
+                    return;
+                }
+
+                const contenidoElement = document.querySelector('.contenido');
+                const allElements = Array.from(contenidoElement.children);
+
+                const tituloPlaylistIndex = allElements.findIndex(el => el.tagName === 'H1' && el.textContent === 'Playlists');
+                const tituloCancionIndex = allElements.findIndex(el => el.tagName === 'H1' && el.textContent === 'Canciones');
+
+                const tituloPlaylist = allElements[tituloPlaylistIndex];
+                const tituloCancion = allElements[tituloCancionIndex];
+
+                let playlistsVisibles = false;
+                let cancionesVisibles = false;
+
+                let i = tituloPlaylistIndex + 1;
+                while (i < tituloCancionIndex) {
+                    if (i + 2 < tituloCancionIndex) {
+                        const etiqueta = allElements[i];
+                        const nombre = allElements[i + 1];
+                        const br = allElements[i + 2];
+
+                        const coincide = nombre.textContent.toLowerCase().includes(textoBusqueda);
+
+                        etiqueta.style.display = coincide ? "block" : "none";
+                        nombre.style.display = coincide ? "block" : "none";
+                        br.style.display = coincide ? "block" : "none";
+
+                        if (coincide) {
+                            playlistsVisibles = true;
+                        }
+
+                        i += 3;
+                    } else {
+                        i++;
+                    }
+                }
+
+                i = tituloCancionIndex + 1;
+                while (i < allElements.length - 3) {
+                    if (i + 4 < allElements.length) {
+                        const etiqueta = allElements[i];
+                        const titulo = allElements[i + 1];
+                        const autor = allElements[i + 2];
+                        const imagen = allElements[i + 3];
+                        const br = allElements[i + 4];
+
+                        const coincide = titulo.textContent.toLowerCase().includes(textoBusqueda) || 
+                                        autor.textContent.toLowerCase().includes(textoBusqueda);
+
+                        etiqueta.style.display = coincide ? "block" : "none";
+                        titulo.style.display = coincide ? "block" : "none";
+                        autor.style.display = coincide ? "block" : "none";
+                        imagen.style.display = coincide ? "block" : "none";
+                        br.style.display = coincide ? "block" : "none";
+
+                        if (coincide) {
+                            cancionesVisibles = true;
+                        }
+
+                        i += 5;
+                    } else {
+                        i++;
+                    }
+                }
+
+                tituloPlaylist.style.display = playlistsVisibles ? "block" : "none";
+                tituloCancion.style.display = cancionesVisibles ? "block" : "none";
+            }
+
+            function mostrarTodos() {
+                const elementos = document.querySelectorAll(".contenido p, .contenido img, .contenido h1, .contenido br");
+                elementos.forEach(elemento => {
+                    elemento.style.display = "block";
+                });
+            }
+
+            botonBuscar.addEventListener("click", buscar);
+            inputBuscador.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    buscar();
+                }
+            });
+        });
+
+        function playSound(cancion) {
+            const audio = document.getElementById("audio");
+            audio.src = `/cancion/${cancion}.mp3/play`;
         }
-        
-        i += 3; // Avanzar al siguiente grupo
-      } else {
-        i++; // Por si hay elementos extra
-      }
-    }
-    
-    // Procesar canciones
-    i = tituloCancionIndex + 1;
-    while (i < allElements.length - 3) { // -3 para evitar el footer y audio
-      // Cada canción tiene 5 elementos: etiqueta "Cancion", título, autor, imagen y <br>
-      if (i + 4 < allElements.length) {
-        const etiqueta = allElements[i];
-        const titulo = allElements[i + 1];
-        const autor = allElements[i + 2];
-        const imagen = allElements[i + 3];
-        const br = allElements[i + 4];
-        
-        // Verificar si el título o autor contiene el texto de búsqueda
-        const coincide = titulo.textContent.toLowerCase().includes(textoBusqueda) || 
-                         autor.textContent.toLowerCase().includes(textoBusqueda);
-        
-        // Mostrar u ocultar
-        etiqueta.style.display = coincide ? "block" : "none";
-        titulo.style.display = coincide ? "block" : "none";
-        autor.style.display = coincide ? "block" : "none";
-        imagen.style.display = coincide ? "block" : "none";
-        br.style.display = coincide ? "block" : "none";
-        
-        if (coincide) {
-          cancionesVisibles = true;
-        }
-        
-        i += 5; // Avanzar al siguiente grupo
-      } else {
-        i++; // Por si hay elementos extra
-      }
-    }
-    
-    // Mostrar u ocultar títulos
-    tituloPlaylist.style.display = playlistsVisibles ? "block" : "none";
-    tituloCancion.style.display = cancionesVisibles ? "block" : "none";
-  }
-  
-  // Función para mostrar todos los elementos
-  function mostrarTodos() {
-    const elementos = document.querySelectorAll(".contenido p, .contenido img, .contenido h1, .contenido br");
-    elementos.forEach(elemento => {
-      elemento.style.display = "block";
-    });
-  }
-  
-  // Agregar evento de clic al botón de búsqueda
-  botonBuscar.addEventListener("click", buscar);
-  
-  // Agregar evento de teclado para permitir búsqueda al presionar Enter
-  inputBuscador.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-      buscar();
-    }
-  });
-});
-
-// Función para reproducir sonido (mantenemos la original)
-function playSound(cancion) {
-  const audio = document.getElementById("audio");
-  audio.src = `/cancion/${cancion}.mp3/play`;
-}
-
-
-
-
-</script>
-
+    </script>
     {% endblock %}
 </body>
 </html>

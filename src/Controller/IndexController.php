@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Cancion;
 use App\Entity\Playlist;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\PlaylistRepository;
 
 final class IndexController extends AbstractController
 {
@@ -64,6 +65,30 @@ final class IndexController extends AbstractController
 
             ]);
     }
+
+  /*   #[Route('/playlist/usuario', name: 'playlist_usuario')]
+    public function indexPlaylistTodas(PlaylistRepository $playlistRepository): Response
+    {
+        $user = $this->getUser();
+        $playlists = [];
+        
+        // If user is logged in, get their playlists
+        if ($user) {
+            $playlists = $playlistRepository->findBy([
+                'usuarioPropietario' => $user
+            ]);
+        }
+
+        // Get all public playlists
+        $publicPlaylists = $playlistRepository->findBy([
+            'visibilidad' => 'publico'
+        ]);
+
+        return $this->render('index.html.twig', [
+            'playlists' => $playlists,
+            'publicPlaylists' => $publicPlaylists
+        ]);
+    } */
 
     
 

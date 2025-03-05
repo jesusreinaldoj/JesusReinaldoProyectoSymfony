@@ -41,9 +41,6 @@ class Cancion
     private Collection $playlistCancions;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $archivo = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $ArchivoCancion = null;
 
     #[ORM\Column(length: 255,nullable:true)]

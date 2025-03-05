@@ -22,7 +22,7 @@ class Playlist
     private ?string $visibilidad = null;
 
     #[ORM\ManyToOne(inversedBy: 'playlists')]
-    private ?Usuario $usuarioPropietario = null;
+    private ?User $usuarioPropietario = null;
 
     #[ORM\Column]
     private ?int $likes = null;
@@ -77,12 +77,12 @@ class Playlist
         return $this;
     }
 
-    public function getUsuarioPropietario(): ?Usuario
+    public function getUsuarioPropietario(): ?User
     {
         return $this->usuarioPropietario;
     }
 
-    public function setUsuarioPropietario(?Usuario $usuarioPropietario): static
+    public function setUsuarioPropietario(?User $usuarioPropietario): static
     {
         $this->usuarioPropietario = $usuarioPropietario;
 

@@ -44,4 +44,14 @@ public function usuariosRegistrados(){
         'conteo' => $query
     ];
    }
+
+   public function buscarporNombre($email): ?User
+       {
+           return $this->createQueryBuilder('u')
+               ->andWhere('u.email = :val')
+               ->setParameter('val', $email)
+               ->getQuery()
+               ->getOneOrNullResult()
+           ;
+       }
 }

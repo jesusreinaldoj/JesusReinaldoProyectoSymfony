@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Playlist;
 use App\Entity\Cancion;
 use App\Entity\PlaylistCancion;
+use App\Entity\User;
 use App\Entity\Usuario;
 use App\Form\PlaylistType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,8 +17,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\SecurityBundle\Attribute\IsGranted;
 use App\Repository\PlaylistCancionRepository;
 use App\Repository\CancionRepository;
+use Proxies\__CG__\App\Entity\Usuario as EntityUsuario;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Security\Http\Attribute\IsGranted as AttributeIsGranted;
+use App\Repository\PlaylistRepository;
+use Psr\Log\LoggerInterface;
 
 final class PlaylistController extends AbstractController
 {
@@ -38,8 +42,8 @@ final class PlaylistController extends AbstractController
         $playlist->setNombre("playlist1");
         $playlist->setVisibilidad("privado");
 
-        $usuario = $entityManagerInterface->getRepository(Usuario::class);
-        $usuario_encontrado = $usuario->buscarporNombre("nombre1");
+        $usuario = $entityManagerInterface->getRepository(User::class);
+        $usuario_encontrado = $usuario->buscarporNombre("jesus@gmail.com");
 
         $playlist->setUsuarioPropietario($usuario_encontrado);
         $playlist->setLikes(0);
@@ -78,7 +82,8 @@ final class PlaylistController extends AbstractController
 public function crearPlaylistUsuario(
     Request $request,
     EntityManagerInterface $entityManager,
-    CancionRepository $cancionRepository
+    CancionRepository $cancionRepository,
+    LoggerInterface $logger
 ): Response {
     $playlist = new Playlist();
     $canciones = $cancionRepository->findAll();
@@ -103,18 +108,20 @@ public function crearPlaylistUsuario(
     $errorMessage = null;
 
     if ($form->isSubmitted() && $form->isValid()) {
-        $usuario = $entityManager->getRepository(Usuario::class);
-        $usuario_encontrado = $usuario->buscarporNombre("nombre1");
+        $usuario = $this->getUser();
 
-        if (!$usuario_encontrado) {
-            throw new \Exception('Usuario no encontrado');
+        if (!$usuario) {
+            $this->addFlash('error', 'Debes iniciar sesión para crear una playlist.');
+            return $this->redirectToRoute('app_login');        
         }
 
-        $playlist->setUsuarioPropietario($usuario_encontrado);
+        $playlist->setUsuarioPropietario($usuario);
         $playlist->setLikes(0);
         $playlist->setReproducciones(0);
 
         $selectedCanciones = $request->get('canciones', []);
+
+        $logger->notice('NOTICE playlist creada por ' . $usuario);
 
         if (empty($selectedCanciones)) {
             $errorMessage = 'Debes seleccionar al menos una canción para tu playlist.';
@@ -144,6 +151,24 @@ public function crearPlaylistUsuario(
         'canciones' => $canciones,
         'selectedCanciones' => $selectedCanciones,
         'errorMessage' => $errorMessage
+    ]);
+}
+
+#[Route('/mis-playlists', name: 'mis_playlists')]
+public function misPlaylists(PlaylistRepository $playlistRepository): Response
+{
+    $user = $this->getUser();
+    if (!$user) {
+        $this->addFlash('error', 'Debes iniciar sesión para ver tus playlists');
+        return $this->redirectToRoute('app_login');
+    }
+
+    $misPlaylists = $playlistRepository->findBy([
+        'usuarioPropietario' => $user
+    ]);
+
+    return $this->render('playlist/mis_playlists.html.twig', [
+        'misPlaylists' => $misPlaylists
     ]);
 }
 }

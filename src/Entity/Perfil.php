@@ -28,7 +28,7 @@ class Perfil
     private Collection $estiloMusicaPreferidos;
 
     #[ORM\OneToOne(mappedBy: 'perfil', cascade: ['persist', 'remove'])]
-    private ?Usuario $usuario = null;
+    private ?User $usuario = null;
 
     public function __construct()
     {
@@ -88,12 +88,12 @@ class Perfil
         return $this;
     }
 
-    public function getUsuario(): ?Usuario
+    public function getUsuario(): ?User
     {
         return $this->usuario;
     }
 
-    public function setUsuario(?Usuario $usuario): static
+    public function setUsuario(?User $usuario): static
     {
         // unset the owning side of the relation if necessary
         if ($usuario === null && $this->usuario !== null) {
