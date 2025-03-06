@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\PlayList;
+use App\Entity\User;
 use App\Entity\Usuario;
 use App\Entity\UsuarioPlayList;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,10 +27,10 @@ final class UsuarioPlaylistController extends AbstractController
     #[Route('/usuario/playlist/new', name: 'app_usuario_playlist_new')]
     public function crearUsuarioPlayList(EntityManagerInterface $entityManagerInterface): JsonResponse
     {
-        $usuario=$entityManagerInterface->getRepository(Usuario::class);
+        $usuario=$entityManagerInterface->getRepository(User::class);
         $playlist=$entityManagerInterface->getRepository(PlayList::class);
 
-        $usuario_encontrado=$usuario->buscarporNombre("email1");
+        $usuario_encontrado=$usuario->buscarporNombre("jesus@gmail.com");
         $playlist_encontrado=$playlist->buscarporNombre("PlayList1");
 
         $usuarioPlaylist=new UsuarioPlayList();

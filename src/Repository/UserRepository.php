@@ -24,8 +24,7 @@ return $this->createQueryBuilder('u')
 ->getQuery()
 ->getOneOrNullResult();
 }
-public function upgradePassword(PasswordAuthenticatedUserInterface
-$user, string $newHashedPassword): void
+public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
 {
 if (!$user instanceof User) {
 throw new UnsupportedUserException();
@@ -33,4 +32,26 @@ throw new UnsupportedUserException();
 $user->setPassword($newHashedPassword);
 $this->_em->persist($user);
 $this->_em->flush();}
+
+public function usuariosRegistrados(){
+    $query = $this->createQueryBuilder('u')
+        ->select('COUNT(u.id) as conteo')
+        ->getQuery()
+        ->getSingleScalarResult();
+
+    return [
+        'usuarios' => 'Registrados',
+        'conteo' => $query
+    ];
+   }
+
+   public function buscarporNombre($email): ?User
+       {
+           return $this->createQueryBuilder('u')
+               ->andWhere('u.email = :val')
+               ->setParameter('val', $email)
+               ->getQuery()
+               ->getOneOrNullResult()
+           ;
+       }
 }

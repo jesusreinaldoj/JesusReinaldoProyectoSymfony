@@ -22,7 +22,7 @@ class Playlist
     private ?string $visibilidad = null;
 
     #[ORM\ManyToOne(inversedBy: 'playlists')]
-    private ?Usuario $usuarioPropietario = null;
+    private ?User $usuarioPropietario = null;
 
     #[ORM\Column]
     private ?int $likes = null;
@@ -38,6 +38,9 @@ class Playlist
      */
     #[ORM\OneToMany(targetEntity: PlaylistCancion::class, mappedBy: 'playlist',cascade:["persist","remove"])]
     private Collection $playlistCancions;
+
+    #[ORM\Column]
+    private ?int $reproducciones = null;
 
     public function __construct()
     {
@@ -74,12 +77,12 @@ class Playlist
         return $this;
     }
 
-    public function getUsuarioPropietario(): ?Usuario
+    public function getUsuarioPropietario(): ?User
     {
         return $this->usuarioPropietario;
     }
 
-    public function setUsuarioPropietario(?Usuario $usuarioPropietario): static
+    public function setUsuarioPropietario(?User $usuarioPropietario): static
     {
         $this->usuarioPropietario = $usuarioPropietario;
 
@@ -161,5 +164,17 @@ class Playlist
     public function __toString()
     {
         return $this->getNombre(); 
+    }
+
+    public function getReproducciones(): ?int
+    {
+        return $this->reproducciones;
+    }
+
+    public function setReproducciones(int $reproducciones): static
+    {
+        $this->reproducciones = $reproducciones;
+
+        return $this;
     }
 }

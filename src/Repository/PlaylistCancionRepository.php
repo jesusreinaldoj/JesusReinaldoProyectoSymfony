@@ -32,15 +32,25 @@ class PlaylistCancionRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-       public function buscarPorID($id): array
-       {
-           return $this->createQueryBuilder('pc')
-               ->join('pc.cancion','c')
-               ->addSelect('c')               
-               ->where('pc.playlist = :val')
-               ->setParameter('val', $id)
-               ->getQuery()
-               ->getResult()
-           ;
-       }
+    public function buscarPorID($id): array
+    {
+        return $this->createQueryBuilder('pc')
+            ->join('pc.cancion', 'c')
+            ->addSelect('c')
+            ->where('pc.playlist = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function obtenerReproduccionesPorPlaylist(): array
+    {
+        return $this->createQueryBuilder('pc')
+            ->select('p.nombre AS playlist, SUM(pc.reproducciones) AS totalReproducciones')
+            ->join('pc.playlist', 'p')
+            ->groupBy('p.id')
+            ->getQuery()
+            ->getResult();
+    }
 }

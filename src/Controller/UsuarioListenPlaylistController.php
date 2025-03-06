@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\User;
 
 final class UsuarioListenPlaylistController extends AbstractController
 {
@@ -31,7 +32,7 @@ final class UsuarioListenPlaylistController extends AbstractController
 
 
 
-        $usuario=$entityManagerInterface->getRepository(Usuario::class);
+        $usuario=$entityManagerInterface->getRepository(User::class);
         $usuario_encontrado=$usuario->buscarporNombre("nombre1");
 
 

@@ -1,0 +1,134 @@
+{% block title %}Crear Nueva Playlist{% endblock %}
+
+{% block body %}
+<style>
+    .playlist-form {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #282828;
+        border-radius: 8px;
+        color: white;
+    }
+    
+    .form-section {
+        margin-bottom: 20px;
+    }
+    
+    .form-title {
+        color: #1DB954;
+        margin-bottom: 20px;
+    }
+    
+    .song-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .song-item {
+        background-color: #333;
+        padding: 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .song-item:hover {
+        background-color: #404040;
+    }
+    
+    .song-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+    
+    .song-checkbox {
+        margin-right: 10px;
+    }
+    
+    .btn-spotify {
+        background-color: #1DB954;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .btn-spotify:hover {
+        background-color: #1ed760;
+    }
+    
+    .alert {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+    
+    .alert-danger {
+        background-color: #e74c3c;
+        color: white;
+    }
+    
+    .alert-success {
+        background-color: #1DB954;
+        color: white;
+    }
+</style>
+
+<div class="playlist-form">
+    <h1 class="form-title">Crear Nueva Playlist</h1>
+    
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+    {% if errorMessage %}
+        <div class="alert alert-danger">
+            {{ errorMessage }}
+        </div>
+    {% endif %}
+    
+    {{ form_start(form) }}
+    
+    <div class="form-section">
+        {{ form_row(form.nombre) }}
+    </div>
+    
+    <div class="form-section">
+        {{ form_row(form.visibilidad) }}
+    </div>
+    
+    <div class="form-section">
+        <h3>Selecciona las canciones</h3>
+        <div class="song-list">
+            {% for cancion in canciones %}
+                <div class="song-item">
+                    <input type="checkbox" id="cancion_{{ cancion.id }}" name="canciones[]" value="{{ cancion.id }}" class="song-checkbox"
+                        {% if cancion.id in selectedCanciones %}checked{% endif %}>
+                    
+                    <label for="cancion_{{ cancion.id }}">
+                        {% if cancion.portada %}
+                            <img src="{{ cancion.portada }}" alt="{{ cancion.titulo }}">
+                        {% endif %}
+                        <div>{{ cancion.titulo }}</div>
+                        <div><small>{{ cancion.autor }}</small></div>
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <button type="submit" class="btn-spotify">Crear Playlist</button>
+    
+    {{ form_end(form) }}
+</div>
+{% endblock %}
