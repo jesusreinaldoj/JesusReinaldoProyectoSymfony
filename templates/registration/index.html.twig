@@ -1,8 +1,176 @@
-
-
 {% block body %}
-<h1>Registro</h1>
-{{ form_start(registrationForm) }}
-{{ form_widget(registrationForm) }}<button class="btn">Registrar</button>
-{{ form_end(registrationForm) }}
+<div class="registro-container">
+    <div class="registro-card">
+        <h2 class="registro-title">Crear Cuenta</h2>
+        
+        {{ form_start(registrationForm, {'attr': {'class': 'registro-form'}}) }}
+            
+            {% if form_errors(registrationForm) %}
+            <div class="error-message">
+                {{ form_errors(registrationForm) }}
+            </div>
+            {% endif %}
+            
+            <div class="form-fields">
+                {% for field in registrationForm %}
+                    {% if field.vars.name != '_token' %}
+                        <div class="form-group">
+                            {{ form_label(field, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(field, {'attr': {'class': 'form-input'}}) }}
+                            {% if form_errors(field) %}
+                                <div class="field-error">{{ form_errors(field) }}</div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="registro-button">Crear Cuenta</button>
+        {{ form_end(registrationForm) }}
+        
+        <div class="login-link">
+            ¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .registro-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: grey;
+        padding: 20px;
+    }
+    
+    .registro-card {
+        background-color: #333;
+        border-radius: 8px;
+        padding: 30px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .registro-title {
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px;
+    }
+    
+    .error-message {
+        background-color: rgba(255, 0, 0, 0.2);
+        color: #ff6b6b;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .registro-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .form-label {
+        color: white;
+        font-size: 14px;
+    }
+    
+    .form-input {
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        background-color: #444;
+        color: white;
+        transition: background-color 0.3s;
+    }
+    
+    /* Estilo específico para los checkbox */
+    .form-input[type="checkbox"] {
+        width: auto;
+        margin-right: 10px;
+    }
+    
+    /* Contenedor para checkbox + label */
+    .form-group:has(.form-input[type="checkbox"]) {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .form-input:focus {
+        background-color: #555;
+        outline: none;
+        box-shadow: 0 0 0 2px #1DB954;
+    }
+    
+    .field-error {
+        color: #ff6b6b;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+    
+    .registro-button {
+        background-color: #1DB954;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+    }
+    
+    .registro-button:hover {
+        background-color: #18a348;
+    }
+    
+    .login-link {
+        margin-top: 20px;
+        text-align: center;
+        color: #ccc;
+        font-size: 14px;
+    }
+    
+    .login-link a {
+        color: #1DB954;
+        text-decoration: none;
+    }
+    
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Ajustes responsivos */
+    @media (max-width: 480px) {
+        .registro-card {
+            padding: 20px;
+        }
+        
+        .registro-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-input {
+            padding: 10px;
+        }
+    }
+</style>
 {% endblock %}

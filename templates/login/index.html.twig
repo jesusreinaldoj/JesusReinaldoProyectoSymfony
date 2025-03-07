@@ -1,14 +1,162 @@
 {% block body %}
-{% if error %}
-<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
-<form action="{{ path('app_login') }}" method="post">
-<label for="username">Email:</label>
-<input type="text" id="username" name="_username" value="{{ last_username }}">
-<label for="password">Password:</label>
-<input type="password" id="password" name="_password">
-{# If you want to control the URL the user is redirected to on success
-<input type="hidden" name="_target_path" value="/account"> #}
-<button type="submit">login</button>
-</form>
+<div class="login-container">
+    <div class="login-card">
+        <h2 class="login-title">Iniciar Sesión</h2>
+        
+        {% if error %}
+        <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        
+        <form action="{{ path('app_login') }}" method="post" class="login-form">
+            <div class="form-group">
+                <label for="username">Email:</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="_password" class="form-input">
+            </div>
+            
+            <div class="form-group remember-me">
+                <input type="checkbox" id="remember_me" name="_remember_me">
+                <label for="remember_me">Recordarme</label>
+            </div>
+            
+            {# If you want to control the URL the user is redirected to on success
+            <input type="hidden" name="_target_path" value="/account"> #}
+            
+            <button type="submit" class="login-button">Iniciar Sesión</button>
+        </form>
+        
+        <div class="signup-link">
+            ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: grey;
+        padding: 20px;
+    }
+    
+    .login-card {
+        background-color: #333;
+        border-radius: 8px;
+        padding: 30px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .login-title {
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px;
+    }
+    
+    .error-message {
+        background-color: rgba(255, 0, 0, 0.2);
+        color: #ff6b6b;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .form-group label {
+        color: white;
+        font-size: 14px;
+    }
+    
+    .form-input {
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        background-color: #444;
+        color: white;
+        transition: background-color 0.3s;
+    }
+    
+    .form-input:focus {
+        background-color: #555;
+        outline: none;
+        box-shadow: 0 0 0 2px #1DB954;
+    }
+    
+    .remember-me {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .remember-me input {
+        margin-right: 8px;
+    }
+    
+    .login-button {
+        background-color: #1DB954;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+    }
+    
+    .login-button:hover {
+        background-color: #18a348;
+    }
+    
+    .signup-link {
+        margin-top: 20px;
+        text-align: center;
+        color: #ccc;
+        font-size: 14px;
+    }
+    
+    .signup-link a {
+        color: #1DB954;
+        text-decoration: none;
+    }
+    
+    .signup-link a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Ajustes responsivos */
+    @media (max-width: 480px) {
+        .login-card {
+            padding: 20px;
+        }
+        
+        .login-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-input {
+            padding: 10px;
+        }
+    }
+</style>
 {% endblock %}
