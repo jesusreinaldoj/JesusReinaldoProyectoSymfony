@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class ReproducirController extends AbstractController
 {
+    #[Route('/cancion/{songName}/play', name: 'reproducir')]
     public function playMusic(string $songName, LoggerInterface $logger): Response
     {
         $musicDirectory = $this->getParameter('kernel.project_dir') . '/songs/';

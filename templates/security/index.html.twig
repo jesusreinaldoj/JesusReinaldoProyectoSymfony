@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceso Denegado - MiSpotify{% endblock %}
+
+{% block contenido %}
+<div style="text-align: center; padding: 50px;">
+    <h1 style="color: #FF5555; margin-bottom: 20px;">Acceso Denegado</h1>
+    <p>No tienes permisos para acceder a esta página.</p>
+    <p>Debes iniciar sesión como usuario para acceder a este contenido.</p>
+    <div style="margin-top: 30px;">
+        <a href="{{ path('app_login') }}" style="background-color: #1DB954; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Iniciar Sesión</a>
+        <a href="/paginaprincipal" style="background-color: #555; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-left: 10px;">Volver al inicio</a>
+    </div>
+</div>
+{% endblock %}

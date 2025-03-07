@@ -154,6 +154,7 @@ public function crearPlaylistUsuario(
     ]);
 }
 
+#[AttributeIsGranted('ROLE_USUARIO')]
 #[Route('/mis-playlists', name: 'mis_playlists')]
 public function misPlaylists(PlaylistRepository $playlistRepository): Response
 {
@@ -167,7 +168,7 @@ public function misPlaylists(PlaylistRepository $playlistRepository): Response
         'usuarioPropietario' => $user
     ]);
 
-    return $this->render('playlist/mis_playlists.html.twig', [
+    return $this->render('playlist/mis_playlist.html.twig', [
         'misPlaylists' => $misPlaylists
     ]);
 }

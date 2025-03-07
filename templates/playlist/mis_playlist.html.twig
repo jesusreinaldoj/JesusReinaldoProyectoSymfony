@@ -1,11 +1,24 @@
-<h1>Playlists Públicas</h1>
-{% for playlist in publicPlaylists %}
-    <p>Playlist Pública</p>
-    <p>{{ playlist.nombre }}</p>
-    {% if playlist.usuarioPropietario %}
-        <p>Creada por: {{ playlist.usuarioPropietario.email }}</p>
-    {% endif %}
-    <a href="{{ path('playlist_canciones', {'id': playlist.id}) }}">Ver Playlist</a>
-    <br><br>
-{% endfor %}
+{% extends 'base.html.twig' %}
 
+{% block title %}Mis Playlists{% endblock %}
+
+{% block contenido %}
+    <h1>Mis Playlists</h1>
+    
+    {% if misPlaylists is empty %}
+        <p>No has creado ninguna playlist todavía.</p>
+        <p><a href="{{ path('playlist_usuario') }}" class="btn btn-primary">Crear mi primera playlist</a></p>
+    {% else %}
+        <div class="playlists-container">
+            {% for playlist in misPlaylists %}
+                <div class="playlist-item">
+                    <h3>{{ playlist.nombre }}</h3>
+                    <p>Visibilidad: {{ playlist.visibilidad }}</p>
+                    <p>Likes: {{ playlist.likes }}</p>
+                    <p>Reproducciones: {{ playlist.reproducciones }}</p>
+                    <a href="{{ path('playlist_canciones', {'id': playlist.id}) }}" class="btn btn-info">Ver canciones</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
