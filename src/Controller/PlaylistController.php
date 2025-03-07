@@ -65,7 +65,7 @@ final class PlaylistController extends AbstractController
         $playlistData = $playlistCancionRepository->buscarPorID($id);
 
         if (empty($playlistData)) {
-            throw $this->createNotFoundException('Playlist no encontrada');
+           return $this->render('playlistvacia/index.html.twig');
         }
 
         $playlistNombre = $playlistData[0]->getPlaylist()->getNombre();
