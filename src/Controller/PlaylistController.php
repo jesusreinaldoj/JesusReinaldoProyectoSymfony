@@ -172,4 +172,59 @@ public function misPlaylists(PlaylistRepository $playlistRepository): Response
         'misPlaylists' => $misPlaylists
     ]);
 }
+
+#[Route('/playlist/json', name: 'app_playlist_json')]
+public function getJSONPlaylists(PlaylistRepository $playlistRepository): Response
+{
+    // 1.- Obtener usuario de la sesión para obtener sus playlists
+    $user = $this->getUser();
+    
+    if (!$user) {
+        return $this->json([
+            'error' => 'Usuario no autenticado',
+            'message' => 'Debes iniciar sesión para acceder a tus playlists'
+        ], 401);
+    }
+    
+    // 2.- Implementar el acceso a las playlists del usuario
+    $playlists = $playlistRepository->findBy([
+        'usuarioPropietario' => $user
+    ]);
+    
+    // 3.- Serialización en JSON del objeto u objetos Playlists
+    $playlistsData = [];
+    
+    foreach ($playlists as $playlist) {
+        $canciones = [];
+        
+        // Obtener las canciones de cada playlist
+        foreach ($playlist->getPlaylistCancions() as $playlistCancion) {
+            $cancion = $playlistCancion->getCancion();
+            $canciones[] = [
+                'id' => $cancion->getId(),
+                'titulo' => $cancion->getTitulo(),
+                'artista' => $cancion->getAutor(),
+                'reproducciones' => $playlistCancion->getReproducciones(),
+                'audioUrl' => '/songs/' . $cancion-> getArchivoCancion()
+            ];
+        }
+        
+        // Construir la estructura de datos para la playlist
+        $playlistsData[] = [
+            'id' => $playlist->getId(),
+            'nombre' => $playlist->getNombre(),
+            'visibilidad' => $playlist->getVisibilidad(),
+            'likes' => $playlist->getLikes(),
+            'reproducciones' => $playlist->getReproducciones(),
+            'canciones' => $canciones
+        ];
+    }
+    
+    // 4.- La respuesta será la estructura JSON comentada
+    return $this->json([
+        'success' => true,
+        'count' => count($playlistsData),
+        'playlists' => $playlistsData
+    ]);
+}
 }
